@@ -18,6 +18,7 @@ var cflags []string
 var cxxflags []string
 var ldflags []string
 var libs []string
+var oname string
 
 func pkgconfig(which string, pkgs []string) []string {
 	cmd := exec.Command("pkg-config", append([]string{which}, pkgs...)...)
@@ -51,6 +52,8 @@ func parseFile(filename string) {
 			cxxflags = append(cxxflags, parts[1:]...)
 		case "LDFLAGS:":
 			ldflags = append(ldflags, parts[1:]...)
+		case "output:":
+			oname = parts[1]
 		case "pkg-config:":
 			xcflags := pkgconfig("--cflags", parts[1:])
 			xlibs := pkgconfig("--libs", parts[1:])
@@ -83,6 +86,7 @@ func compileFlags() {
 	cflags = append(cflags, strings.Fields(os.Getenv("CFLAGS"))...)
 	cxxflags = append(cxxflags, strings.Fields(os.Getenv("CXXFLAGS"))...)
 	ldflags = append(ldflags, strings.Fields(os.Getenv("LDFLAGS"))...)
+	oname = ""
 
 	for _, f := range cfiles {
 		parseFile(f)

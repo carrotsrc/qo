@@ -66,7 +66,7 @@ func buildScript() {
 		objects = append(objects, obj)
 	}
 
-	s := toolchain.Link(objects, ldflags, libs)
+	s := toolchain.Link(objects, ldflags, libs, oname)
 	script = append(script, Stage{s})
 	nSteps++
 }

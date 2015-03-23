@@ -93,11 +93,15 @@ func (g *GCCBase) BuildRCFile(filename string, cflags []string) (stages []Stage,
 	return stages, object
 }
 
-func (g *GCCBase) Link(objects []string, ldflags []string, libs []string) *Step {
+func (g *GCCBase) Link(objects []string, ldflags []string, libs []string, target string) *Step {
 	if g.LD == "" {
 		g.LD = g.CC
 	}
-	target := targetName()
+
+	if target == "" {
+		target = targetName()
+	}
+
 	for i := 0; i < len(libs); i++ {
 		libs[i] = "-l" + libs[i]
 	}

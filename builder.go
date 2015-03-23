@@ -61,6 +61,7 @@ func runStage(s Stage) {
 func run() {
 	percentPer = 100 / float64(nSteps)
 	progress = 0
+	oname = ""
 	printProgress("Beginning build")
 	for _, stage := range script {
 		runStage(stage)
